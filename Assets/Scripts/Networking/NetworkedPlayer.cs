@@ -26,6 +26,7 @@ namespace UnityMultiplayerGame
 
 		float refireTimer = 0;
 		bool canJump = true;
+		bool _isReady = false;
 		float yVel = 0;
 		InputUpdate input;
 
@@ -101,6 +102,11 @@ namespace UnityMultiplayerGame
 			input.vertical = received.vertical;
 			input.fire = received.fire;
 			input.jump = received.jump;
+		}
+
+		public void SetReady(bool ready)
+        {
+			_isReady = ready;
 		}
 	}
 }

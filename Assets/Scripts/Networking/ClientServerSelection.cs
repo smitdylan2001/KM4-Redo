@@ -23,10 +23,10 @@ namespace UnityMultiplayerGame
         public void GoClient() {
             NetworkEndPoint endPoint;
             if (NetworkEndPoint.TryParse(serverIPInput.text, 9000, out endPoint, NetworkFamily.Ipv4)) {
-                Client.serverIP = serverIPInput.text;
+                Client.ServerIP = serverIPInput.text;
             }
             else {
-                Client.serverIP = "127.0.0.1";
+                Client.ServerIP = "127.0.0.1";
             }
 
             string name = nameInput.text;
@@ -36,7 +36,7 @@ namespace UnityMultiplayerGame
                     name += (char)Random.Range(97, 97 + 26);
                 }
             }
-            Client.clientName = name;
+            Client.ClientName = name;
 
             SceneManager.LoadScene(clientScene);
         }

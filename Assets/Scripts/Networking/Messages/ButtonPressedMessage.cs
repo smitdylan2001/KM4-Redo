@@ -25,6 +25,7 @@ namespace UnityMultiplayerGame
 		{
 			// very important to call this first
 			base.SerializeObject(ref writer);
+			writer.WriteUInt(networkId);
 			writer.WriteInt(button);
 			writer.WriteFloat(time);
 		}
@@ -33,6 +34,7 @@ namespace UnityMultiplayerGame
 		{
 			// very important to call this first
 			base.DeserializeObject(ref reader);
+			networkId = reader.ReadUInt();
 			button = reader.ReadInt();
 			time = reader.ReadFloat();
 		}

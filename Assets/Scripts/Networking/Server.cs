@@ -5,6 +5,7 @@ using Unity.Networking.Transport;
 using Unity.Collections;
 using Unity.Networking.Transport.Utilities;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace UnityMultiplayerGame {
 
@@ -20,7 +21,7 @@ namespace UnityMultiplayerGame {
         NETWORK_SPAWN,
         NETWORK_DESTROY,
         NETWORK_UPDATE_POSITION,
-        INPUT_UPDATE,                        // uint networkId, InputUpdate (float, float, bool)
+        INPUT_UPDATE,                        
         PING,
         PONG, 
         READY,
@@ -57,14 +58,14 @@ namespace UnityMultiplayerGame {
             { NetworkMessageType.PING,                      typeof(PingMessage) },
             { NetworkMessageType.PONG,                      typeof(PongMessage) },
             { NetworkMessageType.READY,                     typeof(ReadyMessage) },
-            {NetworkMessageType.START,                      typeof(StartGameMessage) },
+            { NetworkMessageType.START,                     typeof(StartGameMessage) },
             { NetworkMessageType.BUTTON_SELECTED,           typeof(ButtonPressedMessage) }
         };
     }
 
     public class Server : MonoBehaviour
     {
-        static Dictionary<NetworkMessageType, ServerMessageHandler> networkMessageHandlers = new Dictionary<NetworkMessageType, ServerMessageHandler> {
+        static readonly Dictionary<NetworkMessageType, ServerMessageHandler> NetworkMessageHandlers = new Dictionary<NetworkMessageType, ServerMessageHandler> {
             { NetworkMessageType.HANDSHAKE,         HandleClientHandshake },
             { NetworkMessageType.CHAT_MESSAGE,      HandleClientMessage },
             { NetworkMessageType.CHAT_QUIT,         HandleClientExit },
@@ -74,6 +75,7 @@ namespace UnityMultiplayerGame {
             { NetworkMessageType.BUTTON_SELECTED,   HandleButtonPress }
         };
 
+        #region variables
         [SerializeField] private int _maxPlayers = 4;
 
         //Public networking variables
@@ -95,6 +97,7 @@ namespace UnityMultiplayerGame {
         private Dictionary<NetworkConnection, string> _nameList = new Dictionary<NetworkConnection, string>();
         private Dictionary<NetworkConnection, NetworkedPlayer> _playerInstances = new Dictionary<NetworkConnection, NetworkedPlayer>();
         private Dictionary<NetworkConnection, PingPong> _pongDict = new Dictionary<NetworkConnection, PingPong>();
+        #endregion
 
         #region UnityFunctions
         void Start() {
@@ -186,11 +189,11 @@ namespace UnityMultiplayerGame {
                         MessageHeader header = (MessageHeader)System.Activator.CreateInstance(NetworkMessageInfo.TypeMap[msgType]);
                         header.DeserializeObject(ref stream);
 
-                        if (networkMessageHandlers.ContainsKey(msgType))
+                        if (NetworkMessageHandlers.ContainsKey(msgType))
                         {
                             try
                             {
-                                networkMessageHandlers[msgType].Invoke(this, _connections[i], header);
+                                NetworkMessageHandlers[msgType].Invoke(this, _connections[i], header);
                             }
                             catch
                             {
@@ -271,10 +274,12 @@ namespace UnityMultiplayerGame {
                 }
                 else if (_nameList.ContainsKey(_connections[i]))
                 { //means they've succesfully handshaked
-                    PingPong ping = new PingPong();
-                    ping.lastSendTime = Time.time;
-                    ping.status = 3;    // 3 retries
-                    ping.name = _nameList[_connections[i]];
+                    PingPong ping = new PingPong
+                    {
+                        lastSendTime = Time.time,
+                        status = 3,    // 3 retries
+                        name = _nameList[_connections[i]]
+                    };
                     _pongDict.Add(_connections[i], ping);
 
                     PingMessage pingMsg = new PingMessage();
@@ -305,12 +310,7 @@ namespace UnityMultiplayerGame {
                 if (!_connections[i].IsCreated || _connections[i] == toExclude)
                     continue;
 
-                DataStreamWriter writer;
-                int result = Driver.BeginSend(realiable ? Pipeline : NetworkPipeline.Null, _connections[i], out writer);
-                if (result == 0) {
-                    header.SerializeObject(ref writer);
-                    Driver.EndSend(writer);
-                }
+                SendUnicast(_connections[i], header, realiable);
             }
         }
         #endregion
@@ -485,16 +485,18 @@ namespace UnityMultiplayerGame {
                 int randomCount = Random.Range(0, serv.ActivePlayers.Count);
                 Debug.Log(randomCount);
 
-                StartGameMessage spawnMsg = new StartGameMessage
+                StartGameMessage startMsg = new StartGameMessage
                 {
                     networkId = serv._playerInstances[connection].networkId,
                     startPlayer = serv._playerInstances[serv.ActivePlayers[randomCount]].networkId
                 };
-                Debug.Log(spawnMsg.startPlayer + " " +  spawnMsg.networkId);
-                serv.SendBroadcast(spawnMsg);
+                Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
+                serv.SendBroadcast(startMsg);
                 serv.TodoPlayers.Remove(serv.ActivePlayers[randomCount]);
                 serv.Round = 1;
                 Debug.Log("LETS GOOOO");
+
+                //Maybe wait for a return
             }
             else
             {
@@ -504,7 +506,9 @@ namespace UnityMultiplayerGame {
 
         static void HandleButtonPress(Server serv, NetworkConnection connection, MessageHeader header)
         {
+
             ButtonPressedMessage buttonMsg = header as ButtonPressedMessage;
+            if(buttonMsg.
             Debug.Log(serv.RequiredButton + "" + buttonMsg.button);
             if(serv.RequiredButton == buttonMsg.button)
             {
