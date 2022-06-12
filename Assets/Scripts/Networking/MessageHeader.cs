@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Networking.Transport;
 
-namespace ChatClientExample
+namespace UnityMultiplayerGame
 {
     public abstract class MessageHeader
     {

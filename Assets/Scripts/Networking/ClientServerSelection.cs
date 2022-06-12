@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace ChatClientExample
+namespace UnityMultiplayerGame
 {
     public class ClientServerSelection : MonoBehaviour
     {

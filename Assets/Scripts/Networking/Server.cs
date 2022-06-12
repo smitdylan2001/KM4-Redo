@@ -6,7 +6,7 @@ using Unity.Collections;
 using Unity.Networking.Transport.Utilities;
 using System.Linq;
 
-namespace ChatClientExample {
+namespace UnityMultiplayerGame {
 
     public delegate void ServerMessageHandler(Server server, NetworkConnection con, MessageHeader header);
     public delegate void ClientMessageHandler(Client client, MessageHeader header);

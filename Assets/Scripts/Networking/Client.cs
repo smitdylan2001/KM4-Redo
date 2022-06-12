@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Unity.Networking.Transport.Utilities;
 using UnityEngine.SceneManagement;
 
-namespace ChatClientExample
+namespace UnityMultiplayerGame
 {
     public class Client : MonoBehaviour
     {

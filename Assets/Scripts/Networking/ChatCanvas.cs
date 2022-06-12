@@ -4,7 +4,7 @@ using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ChatClientExample
+namespace UnityMultiplayerGame
 {
     public class ChatCanvas : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Networking.Transport;
 using UnityEngine;
 
-namespace ChatClientExample
+namespace UnityMultiplayerGame
 {
     public class DestroyMessage : MessageHeader
     {
