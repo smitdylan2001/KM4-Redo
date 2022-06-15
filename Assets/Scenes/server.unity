@@ -364,13 +364,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1108521400}
-    - target: {fileID: 8241320011328766092, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnReady
+    - target: {fileID: 8241320011328766131, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 8241320011328766092, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityMultiplayerGame.Client, Assembly-CSharp
+    - target: {fileID: 8241320011328766131, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241320011567636318, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241320011567636318, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8241320011606514583, guid: 0d0fa18d655ff964981730fdf77dcb03, type: 3}
       propertyPath: m_Pivot.x
@@ -698,7 +706,6 @@ MonoBehaviour:
   _maxPlayers: 4
   Chat: {fileID: 1597282126}
   NetworkManager: {fileID: 1108521399}
-  CurrentPlayer: 0
   Round: 0
   CurrentPlayerScore: 0
 --- !u!114 &1108521398
@@ -759,9 +766,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7827295f2dbc66246ab48a5a3a674ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetworkManager: {fileID: 1108521399}
   Done: 0
-  networkManager: {fileID: 1108521399}
-  chatCanvas: {fileID: 618182653}
+  ChatCanvas: {fileID: 618182653}
   input: {fileID: 618182654}
 --- !u!1 &1191414648
 GameObject:

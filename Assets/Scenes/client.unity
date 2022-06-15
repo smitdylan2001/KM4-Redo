@@ -676,9 +676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7827295f2dbc66246ab48a5a3a674ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetworkManager: {fileID: 1383206625}
   Done: 0
-  networkManager: {fileID: 1383206625}
-  chatCanvas: {fileID: 1674307324}
+  ChatCanvas: {fileID: 1674307324}
   input: {fileID: 76823954}
 --- !u!114 &1383206624
 MonoBehaviour:

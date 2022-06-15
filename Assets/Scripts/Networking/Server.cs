@@ -20,14 +20,15 @@ namespace UnityMultiplayerGame {
         CHAT_QUIT,
         NETWORK_SPAWN,
         NETWORK_DESTROY,
-        NETWORK_UPDATE_POSITION,
-        INPUT_UPDATE,                        
         PING,
         PONG, 
         READY,
         OTHER_READY,
         START,
+        START_CONFIRM,
         BUTTON_SELECTED,
+        BUTTON_REQUEST,
+        SCORE,
     }
 
     public enum MessageType
@@ -53,13 +54,14 @@ namespace UnityMultiplayerGame {
             { NetworkMessageType.CHAT_QUIT,                 typeof(ChatQuitMessage) },
             { NetworkMessageType.NETWORK_SPAWN,             typeof(SpawnMessage) },
             { NetworkMessageType.NETWORK_DESTROY,           typeof(DestroyMessage) },
-            { NetworkMessageType.NETWORK_UPDATE_POSITION,   typeof(UpdatePositionMessage) },
-            { NetworkMessageType.INPUT_UPDATE,              typeof(InputUpdateMessage) },
             { NetworkMessageType.PING,                      typeof(PingMessage) },
             { NetworkMessageType.PONG,                      typeof(PongMessage) },
             { NetworkMessageType.READY,                     typeof(ReadyMessage) },
             { NetworkMessageType.START,                     typeof(StartGameMessage) },
-            { NetworkMessageType.BUTTON_SELECTED,           typeof(ButtonPressedMessage) }
+            {NetworkMessageType.START_CONFIRM,              typeof(StartConfirmMessage) },
+            { NetworkMessageType.BUTTON_SELECTED,           typeof(ButtonPressedMessage) },
+            { NetworkMessageType.BUTTON_REQUEST,            typeof(ButtonRequestMessage) },
+            {NetworkMessageType.SCORE, typeof(ScoreMessage) }
         };
     }
 
@@ -69,10 +71,10 @@ namespace UnityMultiplayerGame {
             { NetworkMessageType.HANDSHAKE,         HandleClientHandshake },
             { NetworkMessageType.CHAT_MESSAGE,      HandleClientMessage },
             { NetworkMessageType.CHAT_QUIT,         HandleClientExit },
-            { NetworkMessageType.INPUT_UPDATE,      HandleClientInput },
             { NetworkMessageType.PONG,              HandleClientPong },
             { NetworkMessageType.READY,             HandleReadyPlayer },
-            { NetworkMessageType.BUTTON_SELECTED,   HandleButtonPress }
+            { NetworkMessageType.BUTTON_SELECTED,   HandleButtonPress },
+            { NetworkMessageType.START_CONFIRM,     HandleStartConfirm },
         };
 
         #region variables
@@ -87,7 +89,7 @@ namespace UnityMultiplayerGame {
         public NetworkManager NetworkManager;
         public List<NetworkConnection> ActivePlayers = new List<NetworkConnection>();
         public List<NetworkConnection> TodoPlayers;
-        [HideInInspector] public uint CurrentPlayer;
+        [HideInInspector] public NetworkConnection CurrentPlayer;
         [HideInInspector] public int Round = 0; 
         [HideInInspector] public int RequiredButton { get; set; }
         [HideInInspector] public float CurrentPlayerScore = 0;
@@ -97,6 +99,9 @@ namespace UnityMultiplayerGame {
         private Dictionary<NetworkConnection, string> _nameList = new Dictionary<NetworkConnection, string>();
         private Dictionary<NetworkConnection, NetworkedPlayer> _playerInstances = new Dictionary<NetworkConnection, NetworkedPlayer>();
         private Dictionary<NetworkConnection, PingPong> _pongDict = new Dictionary<NetworkConnection, PingPong>();
+
+        //Pricate variables
+        bool _sessionStarted = false;
         #endregion
 
         #region UnityFunctions
@@ -159,6 +164,8 @@ namespace UnityMultiplayerGame {
 
         private void AcceptNewConnections()
         {
+            if (_sessionStarted) return;
+
             // Accept new connections
             NetworkConnection c;
             while ((c = Driver.Accept()) != default(NetworkConnection))
@@ -438,22 +445,6 @@ namespace UnityMultiplayerGame {
             }
         }
 
-        static void HandleClientInput(Server serv, NetworkConnection connection, MessageHeader header) {
-            InputUpdateMessage inputMsg = header as InputUpdateMessage;
-
-            if (serv._playerInstances.ContainsKey(connection)) {
-                if (serv._playerInstances[connection].networkId == inputMsg.networkId) {
-                    serv._playerInstances[connection].UpdateInput(inputMsg.input);
-                }
-                else {
-                    Debug.LogError("NetworkID Mismatch for Player Input");
-                }
-            }
-            else {
-                Debug.LogError("Received player input from unlisted connection");
-            }
-        }
-
         static void HandleClientPong(Server serv, NetworkConnection connection, MessageHeader header) {
             // Debug.Log("PONG");
             serv._pongDict[connection].status = 3;   //reset retry count
@@ -478,10 +469,8 @@ namespace UnityMultiplayerGame {
             //StartGame
             if(ready && serv.ActivePlayers.Count >= 2)
             {
-                serv.RequiredButton = 11;
-                serv.CurrentPlayerScore = 0;
-                serv.TodoPlayers = serv.ActivePlayers;
-                serv.CurrentPlayer = serv._playerInstances[connection].networkId;
+                serv._sessionStarted = true;
+
                 int randomCount = Random.Range(0, serv.ActivePlayers.Count);
                 Debug.Log(randomCount);
 
@@ -492,7 +481,55 @@ namespace UnityMultiplayerGame {
                 };
                 Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
                 serv.SendBroadcast(startMsg);
-                serv.TodoPlayers.Remove(serv.ActivePlayers[randomCount]);
+                serv.Round = 1;
+                Debug.Log("LETS GOOOO");
+
+                //Maybe wait for a return
+            }
+            else
+            {
+                Debug.Log("Not ready yet");
+            }
+        }
+
+        static void HandleStartConfirm(Server serv, NetworkConnection connection, MessageHeader header)
+        {
+            serv._playerInstances[connection].hasConfirmed = true;
+
+            bool ready = true;
+            serv.ActivePlayers.Clear();
+            foreach (var player in serv._playerInstances.Keys)
+            {
+                if (player != default(NetworkConnection))
+                {
+                    if (ready) ready = serv._playerInstances[player].hasConfirmed;
+                    serv.ActivePlayers.Add(player);
+                }
+            }
+            Debug.Log(serv.ActivePlayers.Count);
+
+            //StartGame
+            if (ready && serv.ActivePlayers.Count >= 2)
+            {
+                int requiredButton = Random.Range(1, 10);
+                serv.RequiredButton = requiredButton;
+                serv.CurrentPlayerScore = 0;
+                serv.TodoPlayers = serv.ActivePlayers;
+                int randomCount = Random.Range(0, serv.TodoPlayers.Count);
+                serv.CurrentPlayer = serv.TodoPlayers[randomCount];
+                Debug.Log(randomCount);
+
+                //StartFirstButton
+
+                ButtonRequestMessage startMsg = new ButtonRequestMessage
+                {
+                    networkId = serv._playerInstances[serv.CurrentPlayer].networkId,
+                    button = requiredButton
+                };
+                    Debug.Log(requiredButton);
+                //Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
+                serv.SendUnicast(serv.CurrentPlayer, startMsg);
+                serv.TodoPlayers.Remove(serv.TodoPlayers[randomCount]);
                 serv.Round = 1;
                 Debug.Log("LETS GOOOO");
 
@@ -506,9 +543,9 @@ namespace UnityMultiplayerGame {
 
         static void HandleButtonPress(Server serv, NetworkConnection connection, MessageHeader header)
         {
+            if (connection != serv.CurrentPlayer) return;
 
             ButtonPressedMessage buttonMsg = header as ButtonPressedMessage;
-            if(buttonMsg.
             Debug.Log(serv.RequiredButton + "" + buttonMsg.button);
             if(serv.RequiredButton == buttonMsg.button)
             {
@@ -517,6 +554,55 @@ namespace UnityMultiplayerGame {
                 //Add time score
                 serv.CurrentPlayerScore += buttonMsg.time;
                 //Send Next button
+
+
+                if (serv.Round >= 3)
+                {
+                    //ReturnPlayerScore
+                    ScoreMessage msg = new ScoreMessage { score = serv.CurrentPlayerScore };
+                    serv.SendUnicast(serv.CurrentPlayer, msg);
+
+                    //StartNextPlayer
+                    if (serv.TodoPlayers.Count == 0)
+                    {
+                        //End game
+
+                        return;
+                    }
+
+                    int requiredButton = Random.Range(1, 10);
+                    serv.RequiredButton = requiredButton;
+                    serv.CurrentPlayerScore = 0;
+                    int randomCount = Random.Range(0, serv.TodoPlayers.Count);
+                    serv.CurrentPlayer = serv.TodoPlayers[randomCount];
+                    Debug.Log(randomCount);
+
+                    //StartFirstButton
+
+                    ButtonRequestMessage startMsg = new ButtonRequestMessage
+                    {
+                        networkId = serv._playerInstances[connection].networkId,
+                        button = requiredButton
+                    };
+                    //Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
+                    serv.SendUnicast(serv.CurrentPlayer, startMsg);
+                    serv.TodoPlayers.Remove(serv.TodoPlayers[randomCount]);
+                    serv.Round = 1;
+                    return;
+                }
+                else
+                {
+                    int requiredButton = Random.Range(1, 10);
+                    serv.RequiredButton = requiredButton;
+                    ButtonRequestMessage startMsg = new ButtonRequestMessage
+                    {
+                        networkId = serv._playerInstances[connection].networkId,
+                        button = requiredButton
+                    };
+                    Debug.Log(requiredButton);
+                    serv.SendUnicast(serv.CurrentPlayer, startMsg);
+                }
+                serv.Round++;
 
                 Debug.Log("Received " + buttonMsg.time);
             }

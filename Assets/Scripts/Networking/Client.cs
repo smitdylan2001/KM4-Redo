@@ -15,10 +15,11 @@ namespace UnityMultiplayerGame
             { NetworkMessageType.HANDSHAKE_RESPONSE,        HandleServerHandshakeResponse },
             { NetworkMessageType.NETWORK_SPAWN,             HandleNetworkSpawn },             // uint networkId, uint objectType
             { NetworkMessageType.NETWORK_DESTROY,           HandleNetworkDestroy },           // uint networkId
-            { NetworkMessageType.NETWORK_UPDATE_POSITION,   HandleNetworkUpdate },            // uint networkId, vector3 position, vector3 rotation
             { NetworkMessageType.CHAT_MESSAGE,              HandleChatMessage },
             { NetworkMessageType.PING,                      HandlePing },
-            { NetworkMessageType.START,                     HandleGameStart },      
+            { NetworkMessageType.START,                     HandleGameStart },
+            { NetworkMessageType.BUTTON_REQUEST,            HandleButtonRequest },
+            {NetworkMessageType.SCORE,                      HandleScoreReceive }
         };
 
         #region Variables
@@ -226,19 +227,6 @@ namespace UnityMultiplayerGame
             }
         }
 
-        static void HandleNetworkUpdate(Client client, MessageHeader header) {
-            UpdatePositionMessage posMsg = header as UpdatePositionMessage;
-
-            GameObject obj;
-            if (client.NetworkManager.GetReference(posMsg.networkId, out obj)) {
-                obj.transform.position = posMsg.position;
-                obj.transform.eulerAngles = posMsg.rotation;
-            }
-            else {
-                Debug.LogError($"Could not find object with id {posMsg.networkId}!");
-            }
-        }
-
         static void HandleChatMessage(Client client, MessageHeader header) {
             ChatMessage chatMsg = header as ChatMessage;
 
@@ -260,25 +248,26 @@ namespace UnityMultiplayerGame
         {
             StartGameMessage posMsg = header as StartGameMessage;
 
-            GameObject obj;
-            if (client.NetworkManager.GetReference(posMsg.networkId, out obj))
-            {
-                var networkedPlayer = obj.GetComponent<NetworkedPlayer>();
-                if(posMsg.startPlayer == networkedPlayer.networkId)
-                {
-                    //This player goes
-                    Debug.Log("I Go");
-                }
-                else
-                {
-                    //This player does not go
-                    Debug.Log("I Dont Go");
-                }
-            }
-            else
-            {
-                Debug.LogError($"Could not find object with id {posMsg.networkId}!");
-            }
+            StartConfirmMessage msg = new StartConfirmMessage();
+            client.SendPackedMessage(msg);
+
+            //Show waiting screen
+        }
+
+        static void HandleButtonRequest(Client client, MessageHeader header)
+        {
+            ButtonPressManager.Instance.ShowButtons();
+
+            ButtonRequestMessage msg = header as ButtonRequestMessage;
+
+            ButtonPressManager.Instance.ReceiveButton(msg.button);
+        }
+
+        static void HandleScoreReceive(Client client, MessageHeader header)
+        {
+            ScoreMessage msg = header as ScoreMessage;
+
+            ScoreManager.Instance.ShowScore(msg.score);
         }
         #endregion
     }
