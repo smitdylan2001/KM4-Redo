@@ -546,7 +546,6 @@ namespace UnityMultiplayerGame {
             if (connection != serv.CurrentPlayer) return;
 
             ButtonPressedMessage buttonMsg = header as ButtonPressedMessage;
-            Debug.Log(serv.RequiredButton + "" + buttonMsg.button);
             if(serv.RequiredButton == buttonMsg.button)
             {
                 //Check time approx

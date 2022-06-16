@@ -267,6 +267,8 @@ namespace UnityMultiplayerGame
         {
             ScoreMessage msg = header as ScoreMessage;
 
+            DatabaseUtils.Instance.SendScoreToDatabase((int)(msg.score * 1000)); //Time in ms
+
             ScoreManager.Instance.ShowScore(msg.score);
         }
         #endregion

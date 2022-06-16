@@ -9,10 +9,14 @@ using UnityEngine.UI;
 public class DatabaseUtils : MonoBehaviour
 {
 	private static DatabaseUtils _instance;
-	public static DatabaseUtils Instance { get {
+	public static DatabaseUtils Instance 
+	{ 
+		get 
+		{
 			if (_instance == null) FindObjectOfType<DatabaseUtils>();
 			return _instance;
-		}}
+		}
+	}
 
 	static public int PlayerID;
 	static public string SessionID;
@@ -31,7 +35,7 @@ public class DatabaseUtils : MonoBehaviour
 		StartCoroutine(SignIn(isServer));
     }
 
-	IEnumerator SignIn(bool isServer)
+	private IEnumerator SignIn(bool isServer)
 	{
 		string url = "https://studenthome.hku.nl/~dylan.smit/Database/server_login.php?id=2&pw=Admin2";
 
@@ -44,9 +48,17 @@ public class DatabaseUtils : MonoBehaviour
 				SessionID = www.downloadHandler.text;
 				Debug.Log(SessionID);
 			}
+			else
+			{
+				Debug.LogError(www.error);
+			}
 		}
 
-		if (SessionID == "0") ;//TODO: error
+		if (SessionID == "0")
+		{
+			Debug.LogError("Could not sign into server");
+			yield break;
+		}
 
 		url = $"https://studenthome.hku.nl/~dylan.smit/Database/user_login.php?PHPSESSID={SessionID}&username={_emailInput.text}&pw={_passwordInput.text}"; //https://studenthome.hku.nl/~dylan.smit/Database/user_login.php?username=test@test.nl&pw=testPass
 		using (UnityWebRequest www = UnityWebRequest.Get(url))
@@ -57,24 +69,34 @@ public class DatabaseUtils : MonoBehaviour
 			{
 				PlayerID = int.Parse(www.downloadHandler.text);
 				Debug.Log(PlayerID);
+            }
+            else
+            {
+				Debug.LogError(www.error);
 			}
 		}
 
-		if (PlayerID == 0) ;//TODO: error
+		if (PlayerID == 0)
+		{
+			Debug.LogError("Could not sign into user");
+			yield break;
+		}
 
 		if (isServer) SceneManager.LoadScene(1);
 		else SceneManager.LoadScene(2);
 	}
-	#endregion
+    #endregion
 
-	public void SendScoreToDatabase(int score)
+    #region ScoreSubmit
+    public void SendScoreToDatabase(int score)
     {
-
-		
+		StartCoroutine(SendScore(score));
     }
 
-	IEnumerator SendScore(int score)
+	private IEnumerator SendScore(int score)
     {
+		int succeded = 0;
+
 		var url = $"https://studenthome.hku.nl/~dylan.smit/Database/insert_score.php?PHPSESSID={SessionID}&score={score}&id={PlayerID}";
 		using (UnityWebRequest www = UnityWebRequest.Get(url))
 		{
@@ -82,9 +104,22 @@ public class DatabaseUtils : MonoBehaviour
 
 			if (www.error == null)
 			{
-				int succeded = int.Parse(www.downloadHandler.text);
-				if (succeded == 0) ;//TODO: error
+				succeded = int.Parse(www.downloadHandler.text);
+			}
+            else
+            {
+				Debug.LogError(www.error);
 			}
 		}
+
+		if (succeded == 1)
+		{
+			Debug.Log("Submitted score " + score);
+		}
+        else
+        {
+			Debug.LogError("Could not commit score");
+		}
 	}
+    #endregion
 }
