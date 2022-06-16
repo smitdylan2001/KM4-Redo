@@ -20,8 +20,8 @@ namespace UnityMultiplayerGame
 			}
 		}
 
-		static public int PlayerID;
-		static public string SessionID;
+		static public int PlayerID { get; private set; }
+		static public string SessionID { get; private set; }
 
 		[SerializeField] private InputField _emailInput, _passwordInput;
 

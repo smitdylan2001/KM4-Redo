@@ -29,11 +29,11 @@ namespace UnityMultiplayerGame
         }
         #endregion
 
-        [SerializeField] Image[] _buttons;
-        [SerializeField] GameObject _exitButton;
-        int _selectedButton = 0;
-        Client _client;
-        float _currentTime = 0;
+        [SerializeField] private Image[] _buttons;
+        [SerializeField] private GameObject _exitButton;
+        private int _selectedButton = 0;
+        private Client _client;
+        private float _currentTime = 0;
 
         void Start()
         {

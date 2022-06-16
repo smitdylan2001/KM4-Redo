@@ -88,16 +88,16 @@ namespace UnityMultiplayerGame
         public NetworkManager NetworkManager;
         public List<NetworkConnection> ActivePlayers = new List<NetworkConnection>();
         public List<NetworkConnection> TodoPlayers;
-        [HideInInspector] public NetworkConnection CurrentPlayer;
-        [HideInInspector] public int Round = 0;
-        [HideInInspector] public int RequiredButton { get; set; }
-        [HideInInspector] public float CurrentPlayerScore = 0;
+        [HideInInspector] public NetworkConnection CurrentPlayer { get; private set; }
+        [HideInInspector] public int Round { get; private set; }
 
         //Private networking variables
         private NativeList<NetworkConnection> _connections;
         private Dictionary<NetworkConnection, string> _nameList = new Dictionary<NetworkConnection, string>();
         private Dictionary<NetworkConnection, NetworkedPlayer> _playerInstances = new Dictionary<NetworkConnection, NetworkedPlayer>();
         private Dictionary<NetworkConnection, PingPong> _pongDict = new Dictionary<NetworkConnection, PingPong>();
+        private float CurrentPlayerScore = 0;
+        private int RequiredButton;
 
         //Pricate variables
         bool _sessionStarted = false;

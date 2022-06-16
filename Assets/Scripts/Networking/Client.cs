@@ -34,7 +34,7 @@ namespace UnityMultiplayerGame
         public NetworkManager NetworkManager;
 
         //Public variables
-        [HideInInspector] public bool Done;
+        public bool Done { get; private set; }
 
         //Private variables
         private bool _connected = false;
