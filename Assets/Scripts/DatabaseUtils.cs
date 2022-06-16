@@ -23,7 +23,7 @@ namespace UnityMultiplayerGame
 		static public int PlayerID { get; private set; }
 		static public string SessionID { get; private set; }
 
-		[SerializeField] private InputField _emailInput, _passwordInput;
+		[SerializeField] private InputField _emailInput, _passwordInput, _username;
 
 		private void Start()
 		{
@@ -123,6 +123,42 @@ namespace UnityMultiplayerGame
 				Debug.LogError("Could not commit score");
 			}
 		}
-		#endregion
-	}
+        #endregion
+
+        #region SignUp
+		public void SignUpUser()
+        {
+			StartCoroutine(SignUp());
+        }
+
+		private IEnumerator SignUp()
+        {
+			int succeded = 0;
+
+			var url = $"https://studenthome.hku.nl/~dylan.smit/Database/user_signup.php?name={_username.text}&mail={_emailInput.text}&pass={_passwordInput.text}";
+			using (UnityWebRequest www = UnityWebRequest.Get(url))
+			{
+				yield return www.SendWebRequest();
+
+				if (www.error == null)
+				{
+					succeded = int.Parse(www.downloadHandler.text);
+				}
+				else
+				{
+					Debug.LogError(www.error);
+				}
+			}
+
+			if (succeded == 1)
+			{
+				Debug.Log("signed up");
+			}
+			else
+			{
+				Debug.LogError("Could not sign up");
+			}
+		}
+        #endregion
+    }
 }
