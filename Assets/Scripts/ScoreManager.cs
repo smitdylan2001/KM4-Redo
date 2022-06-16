@@ -6,7 +6,6 @@ namespace UnityMultiplayerGame
 {
     public class ScoreManager : MonoBehaviour
     {
-
         #region Singleton
         private static ScoreManager _instance;
 
@@ -28,7 +27,6 @@ namespace UnityMultiplayerGame
             _instance = this;
         }
         #endregion
-
 
         [SerializeField] Text _text;
 

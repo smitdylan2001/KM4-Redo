@@ -7,7 +7,7 @@ namespace UnityMultiplayerGame
 {
     public class DestroyMessage : MessageHeader
     {
-		public override NetworkMessageType Type { 
+		public override NetworkMessageType Type {
 			get {
 				return NetworkMessageType.NETWORK_DESTROY;
 			}
@@ -18,7 +18,7 @@ namespace UnityMultiplayerGame
 		public override void SerializeObject(ref DataStreamWriter writer) {
 			// very important to call this first
 			base.SerializeObject(ref writer);
-			
+
 			writer.WriteUInt(networkId);
 		}
 

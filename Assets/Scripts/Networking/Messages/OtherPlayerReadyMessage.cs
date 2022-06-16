@@ -23,7 +23,6 @@ namespace UnityMultiplayerGame
 			base.SerializeObject(ref writer);
 
 			writer.WriteUInt(networkId);
-
 		}
 
 		public override void DeserializeObject(ref DataStreamReader reader)
@@ -32,7 +31,6 @@ namespace UnityMultiplayerGame
 			base.DeserializeObject(ref reader);
 
 			networkId = reader.ReadUInt();
-
 		}
 	}
 }

@@ -35,7 +35,6 @@ namespace UnityMultiplayerGame
         Client _client;
         float _currentTime = 0;
 
-          
         void Start()
         {
             _client = FindObjectOfType<Client>();
@@ -78,6 +77,7 @@ namespace UnityMultiplayerGame
             }
             if (showExit) ShowExitButton();
         }
+
         public void ShowButtons()
         {
             foreach (var button in _buttons)
@@ -94,6 +94,7 @@ namespace UnityMultiplayerGame
 
         public void Exit()
         {
+            _client.ExitChat();
             Application.Quit();
         }
     }

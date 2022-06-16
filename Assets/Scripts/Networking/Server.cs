@@ -7,8 +7,8 @@ using Unity.Networking.Transport.Utilities;
 using System.Linq;
 using UnityEngine.UI;
 
-namespace UnityMultiplayerGame {
-
+namespace UnityMultiplayerGame
+{
     public delegate void ServerMessageHandler(Server server, NetworkConnection con, MessageHeader header);
     public delegate void ClientMessageHandler(Client client, MessageHeader header);
 
@@ -21,7 +21,7 @@ namespace UnityMultiplayerGame {
         NETWORK_SPAWN,
         NETWORK_DESTROY,
         PING,
-        PONG, 
+        PONG,
         READY,
         OTHER_READY,
         START,
@@ -33,7 +33,7 @@ namespace UnityMultiplayerGame {
 
     public enum MessageType
 	{
-        MESSAGE, 
+        MESSAGE,
         JOIN,
         QUIT
 	}
@@ -85,12 +85,11 @@ namespace UnityMultiplayerGame {
         public NetworkPipeline Pipeline;
 
         //Public variables
-        public ChatCanvas Chat;
         public NetworkManager NetworkManager;
         public List<NetworkConnection> ActivePlayers = new List<NetworkConnection>();
         public List<NetworkConnection> TodoPlayers;
         [HideInInspector] public NetworkConnection CurrentPlayer;
-        [HideInInspector] public int Round = 0; 
+        [HideInInspector] public int Round = 0;
         [HideInInspector] public int RequiredButton { get; set; }
         [HideInInspector] public float CurrentPlayerScore = 0;
 
@@ -239,7 +238,7 @@ namespace UnityMultiplayerGame {
                                 _nameList.Remove(_connections[i]);
                             }
 
-                            uint destroyId = _playerInstances[_connections[i]].networkId;
+                            uint destroyId = _playerInstances[_connections[i]].NetworkId;
                             NetworkManager.DestroyWithId(destroyId);
                             _playerInstances.Remove(_connections[i]);
 
@@ -251,7 +250,6 @@ namespace UnityMultiplayerGame {
 
                             // Build messages
                             string msg = $"{name} has been Disconnected (connection timed out)";
-                            Chat.NewMessage(msg, ChatCanvas.leaveColor);
 
                             ChatMessage quitMsg = new ChatMessage
                             {
@@ -329,7 +327,6 @@ namespace UnityMultiplayerGame {
             // Add to list
             serv._nameList.Add(connection, message.name);
             string msg = $"{message.name} has joined the chat.";
-            serv.Chat.NewMessage(msg, ChatCanvas.joinColor);
 
             ChatMessage chatMsg = new ChatMessage {
                 messageType = MessageType.JOIN,
@@ -340,21 +337,20 @@ namespace UnityMultiplayerGame {
             serv.SendBroadcast(chatMsg);
 
             // spawn a non-local, server player
-            GameObject player;
             uint networkId = 0;
-            if (serv.NetworkManager.SpawnWithId(NetworkSpawnObject.PLAYER, NetworkManager.NextNetworkID, out player)) {
+            if (serv.NetworkManager.SpawnWithId(NetworkSpawnObject.PLAYER, NetworkManager.NextNetworkID, out GameObject player)) {
                 // Get and setup player instance
                 NetworkedPlayer playerInstance = player.GetComponent<NetworkedPlayer>();
-                playerInstance.isServer = true;
-                playerInstance.isLocal = false;
-                networkId = playerInstance.networkId;
+                playerInstance.IsServer = true;
+                playerInstance.IsLocal = false;
+                networkId = playerInstance.NetworkId;
 
                 serv._playerInstances.Add(connection, playerInstance);
 
                 // Send spawn local player back to sender
                 HandshakeResponseMessage responseMsg = new HandshakeResponseMessage {
                     message = $"Welcome {message.name}!",
-                    networkId = playerInstance.networkId
+                    networkId = playerInstance.NetworkId
                 };
 
                 serv.SendUnicast(connection, responseMsg);
@@ -368,7 +364,7 @@ namespace UnityMultiplayerGame {
                 if (pair.Key == connection) continue;
 
                 SpawnMessage spawnMsg = new SpawnMessage {
-                    networkId = pair.Value.networkId,
+                    networkId = pair.Value.NetworkId,
                     objectType = NetworkSpawnObject.PLAYER
                 };
 
@@ -393,7 +389,6 @@ namespace UnityMultiplayerGame {
 
             if (serv._nameList.ContainsKey(connection)) {
                 string msg = $"{serv._nameList[connection]}: {receivedMsg.message}";
-                serv.Chat.NewMessage(msg, ChatCanvas.chatColor);
 
                 receivedMsg.message = msg;
 
@@ -411,7 +406,6 @@ namespace UnityMultiplayerGame {
 
             if (serv._nameList.ContainsKey(connection)) {
                 string msg = $"{serv._nameList[connection]} has left the chat.";
-                serv.Chat.NewMessage(msg, ChatCanvas.leaveColor);
 
                 // Clean up
                 serv._nameList.Remove(connection);
@@ -422,7 +416,7 @@ namespace UnityMultiplayerGame {
 
                 connection.Disconnect(serv.Driver);
 
-                uint destroyId = serv._playerInstances[connection].networkId;
+                uint destroyId = serv._playerInstances[connection].NetworkId;
                 Destroy(serv._playerInstances[connection].gameObject);
                 serv._playerInstances.Remove(connection);
 
@@ -452,7 +446,7 @@ namespace UnityMultiplayerGame {
 
         static void HandleReadyPlayer(Server serv, NetworkConnection connection, MessageHeader header)
         {
-            serv._playerInstances[connection].isReady = true;
+            serv._playerInstances[connection].IsReady = true;
 
             bool ready = true;
             serv.ActivePlayers.Clear();
@@ -460,7 +454,7 @@ namespace UnityMultiplayerGame {
             {
                 if (player != default(NetworkConnection))
                 {
-                    if(ready) ready = serv._playerInstances[player].isReady;
+                    if(ready) ready = serv._playerInstances[player].IsReady;
                     serv.ActivePlayers.Add(player);
                 }
             }
@@ -476,8 +470,8 @@ namespace UnityMultiplayerGame {
 
                 StartGameMessage startMsg = new StartGameMessage
                 {
-                    networkId = serv._playerInstances[connection].networkId,
-                    startPlayer = serv._playerInstances[serv.ActivePlayers[randomCount]].networkId
+                    networkId = serv._playerInstances[connection].NetworkId,
+                    startPlayer = serv._playerInstances[serv.ActivePlayers[randomCount]].NetworkId
                 };
                 Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
                 serv.SendBroadcast(startMsg);
@@ -494,7 +488,7 @@ namespace UnityMultiplayerGame {
 
         static void HandleStartConfirm(Server serv, NetworkConnection connection, MessageHeader header)
         {
-            serv._playerInstances[connection].hasConfirmed = true;
+            serv._playerInstances[connection].HasConfirmed = true;
 
             bool ready = true;
             serv.ActivePlayers.Clear();
@@ -502,7 +496,7 @@ namespace UnityMultiplayerGame {
             {
                 if (player != default(NetworkConnection))
                 {
-                    if (ready) ready = serv._playerInstances[player].hasConfirmed;
+                    if (ready) ready = serv._playerInstances[player].HasConfirmed;
                     serv.ActivePlayers.Add(player);
                 }
             }
@@ -523,7 +517,7 @@ namespace UnityMultiplayerGame {
 
                 ButtonRequestMessage startMsg = new ButtonRequestMessage
                 {
-                    networkId = serv._playerInstances[serv.CurrentPlayer].networkId,
+                    networkId = serv._playerInstances[serv.CurrentPlayer].NetworkId,
                     button = requiredButton
                 };
                     Debug.Log(requiredButton);
@@ -554,7 +548,6 @@ namespace UnityMultiplayerGame {
                 serv.CurrentPlayerScore += buttonMsg.time;
                 //Send Next button
 
-
                 if (serv.Round >= 3)
                 {
                     //ReturnPlayerScore
@@ -580,7 +573,7 @@ namespace UnityMultiplayerGame {
 
                     ButtonRequestMessage startMsg = new ButtonRequestMessage
                     {
-                        networkId = serv._playerInstances[connection].networkId,
+                        networkId = serv._playerInstances[connection].NetworkId,
                         button = requiredButton
                     };
                     //Debug.Log(startMsg.startPlayer + " " + startMsg.networkId);
@@ -595,7 +588,7 @@ namespace UnityMultiplayerGame {
                     serv.RequiredButton = requiredButton;
                     ButtonRequestMessage startMsg = new ButtonRequestMessage
                     {
-                        networkId = serv._playerInstances[connection].networkId,
+                        networkId = serv._playerInstances[connection].NetworkId,
                         button = requiredButton
                     };
                     Debug.Log(requiredButton);

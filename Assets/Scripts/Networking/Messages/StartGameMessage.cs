@@ -18,7 +18,6 @@ namespace UnityMultiplayerGame
 		public uint networkId;
 		public uint startPlayer;
 
-
 		public override void SerializeObject(ref DataStreamWriter writer)
 		{
 			// very important to call this first
@@ -26,7 +25,6 @@ namespace UnityMultiplayerGame
 
 			writer.WriteUInt(networkId);
 			writer.WriteUInt(startPlayer);
-
 		}
 
 		public override void DeserializeObject(ref DataStreamReader reader)
@@ -36,7 +34,6 @@ namespace UnityMultiplayerGame
 
 			networkId = reader.ReadUInt();
 			startPlayer = reader.ReadUInt();
-
 		}
 	}
 }

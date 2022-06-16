@@ -34,8 +34,7 @@ namespace UnityMultiplayerGame
         public NetworkManager NetworkManager;
 
         //Public variables
-        public bool Done;
-        public ChatCanvas ChatCanvas;
+        [HideInInspector] public bool Done;
 
         //Private variables
         private bool _connected = false;
@@ -81,7 +80,7 @@ namespace UnityMultiplayerGame
             endpoint.Port = 1511;
             Connection = Driver.Connect(endpoint);
         }
-        
+
         private void Disconnect()
         {
             // Disconnecting on application exit currently (to keep it simple)
@@ -114,9 +113,8 @@ namespace UnityMultiplayerGame
 
         private void ProcessData()
         {
-            DataStreamReader stream;
             NetworkEvent.Type cmd;
-            while ((cmd = Connection.PopEvent(Driver, out stream)) != NetworkEvent.Type.Empty)
+            while ((cmd = Connection.PopEvent(Driver, out DataStreamReader stream)) != NetworkEvent.Type.Empty)
             {
                 if (cmd == NetworkEvent.Type.Connect)
                 {
@@ -159,6 +157,7 @@ namespace UnityMultiplayerGame
         #endregion
 
         #region ClientFunctions
+        /*Old Messaging functions
         public InputField input;
 
         // UI FUNCTIONS (0 refs)
@@ -169,6 +168,7 @@ namespace UnityMultiplayerGame
             if ( _connected ) SendPackedMessage(chatMsg);
             input.text = "";
         }
+        */
 
         public void ExitChat() {
             ChatQuitMessage chatQuitMsg = new ChatQuitMessage();
@@ -176,6 +176,7 @@ namespace UnityMultiplayerGame
             SceneManager.LoadScene(0);
         }
         // END UI FUNCTIONS
+        
 
         public void OnReady()
         {
@@ -201,13 +202,14 @@ namespace UnityMultiplayerGame
         static void HandleServerHandshakeResponse(Client client, MessageHeader header) {
             HandshakeResponseMessage response = header as HandshakeResponseMessage;
 
-            GameObject obj;
-            if (client.NetworkManager.SpawnWithId(NetworkSpawnObject.PLAYER, response.networkId, out obj)) {
+            if (client.NetworkManager.SpawnWithId(NetworkSpawnObject.PLAYER, response.networkId, out GameObject obj))
+            {
                 NetworkedPlayer player = obj.GetComponent<NetworkedPlayer>();
-                player.isLocal = true;
-                player.isServer = false;
+                player.IsLocal = true;
+                player.IsServer = false;
             }
-            else {
+            else
+            {
                 Debug.LogError("Could not spawn player!");
             }
         }
@@ -229,12 +231,6 @@ namespace UnityMultiplayerGame
 
         static void HandleChatMessage(Client client, MessageHeader header) {
             ChatMessage chatMsg = header as ChatMessage;
-
-            Color c = ChatCanvas.chatColor;
-            if (chatMsg.messageType == MessageType.JOIN) c = ChatCanvas.joinColor;
-            if (chatMsg.messageType == MessageType.QUIT) c = ChatCanvas.leaveColor;
-
-            client.ChatCanvas.NewMessage(chatMsg.message, c);
         }
 
         static void HandlePing(Client client, MessageHeader header) {

@@ -9,8 +9,8 @@ namespace UnityMultiplayerGame
 {
     public abstract class MessageHeader
     {
-        private static uint nextID = 0;
-        public static uint NextID => ++nextID;
+        private static uint _nextID = 0;
+        public static uint NextID => ++_nextID;
         public abstract NetworkMessageType Type { get; }
         public uint ID { get; private set; } = NextID;
 

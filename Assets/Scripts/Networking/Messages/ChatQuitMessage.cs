@@ -7,7 +7,7 @@ namespace UnityMultiplayerGame
 {
     public class ChatQuitMessage : MessageHeader
     {
-		public override NetworkMessageType Type { 
+		public override NetworkMessageType Type {
 			get {
 				return NetworkMessageType.CHAT_QUIT;
 			}

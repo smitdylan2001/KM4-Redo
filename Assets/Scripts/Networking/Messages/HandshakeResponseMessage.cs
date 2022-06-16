@@ -7,7 +7,7 @@ namespace UnityMultiplayerGame
 {
     public class HandshakeResponseMessage : MessageHeader
     {
-		public override NetworkMessageType Type { 
+		public override NetworkMessageType Type {
 			get {
 				return NetworkMessageType.HANDSHAKE_RESPONSE;
 			}

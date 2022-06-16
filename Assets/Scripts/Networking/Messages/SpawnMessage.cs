@@ -7,7 +7,7 @@ namespace UnityMultiplayerGame
 {
     public class SpawnMessage : MessageHeader
     {
-		public override NetworkMessageType Type { 
+		public override NetworkMessageType Type {
 			get {
 				return NetworkMessageType.NETWORK_SPAWN;
 			}
@@ -21,7 +21,7 @@ namespace UnityMultiplayerGame
 		public override void SerializeObject(ref DataStreamWriter writer) {
 			// very important to call this first
 			base.SerializeObject(ref writer);
-			
+
 			writer.WriteUInt(networkId);
 			writer.WriteUInt((uint)objectType);
 
