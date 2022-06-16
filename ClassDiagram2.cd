@@ -1,203 +1,224 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="UnityMultiplayerGame.Client">
-    <Position X="22.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>UARDghBCICAACAEAACAChwAAAIAAgRAAQAAGQAABAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\Client.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityMultiplayerGame.NetworkedPlayer">
-    <Position X="24.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAUAAAAAAAAAAAAEAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\NetworkedPlayer.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="NetworkedBehaviour">
-    <Position X="24.5" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\NetworkedBehaviour.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityMultiplayerGame.PingPong">
-    <Position X="26.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityMultiplayerGame.NetworkMessageInfo">
-    <Position X="26.5" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityMultiplayerGame.Server">
-    <Position X="21" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ECQFgAASACAAAASBgIACAACAAAAAgQgIQAAigAIAFQo=</HashCode>
-      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityMultiplayerGame.MessageHeader">
-    <Position X="15.5" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAkAAAABAAAAACAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Networking\MessageHeader.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="UnityMultiplayerGame.ButtonPressedMessage">
-    <Position X="12.75" Y="4.75" Width="1.25" />
+    <Position X="21.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABIABAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ButtonPressedMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ButtonRequestMessage">
-    <Position X="14.25" Y="4.75" Width="1.25" />
+    <Position X="23.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ButtonRequestMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ChatMessage">
-    <Position X="15.75" Y="4.75" Width="1.25" />
+    <Position X="25.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAEAAAAAAAAAAAAACAAAAAAAAAQAAAAAAACA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ChatMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ChatQuitMessage">
-    <Position X="17.25" Y="4.75" Width="1.25" />
+    <Position X="27.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ChatQuitMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.DestroyMessage">
-    <Position X="18.75" Y="4.75" Width="1.25" />
+    <Position X="29.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\DestroyMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.HandshakeMessage">
-    <Position X="20.25" Y="4.75" Width="1.25" />
+    <Position X="29.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAEAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\HandshakeMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.HandshakeResponseMessage">
-    <Position X="21.75" Y="4.75" Width="1.25" />
+    <Position X="21.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAACA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\HandshakeResponseMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.OtherPlayerReadyMessage">
-    <Position X="23.25" Y="4.75" Width="1.25" />
+    <Position X="23.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\OtherPlayerReadyMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.PingMessage">
-    <Position X="24.75" Y="4.75" Width="1.25" />
+    <Position X="25.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\PingMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.PongMessage">
-    <Position X="26.25" Y="4.75" Width="1.25" />
+    <Position X="27.25" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\PongMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ReadyMessage">
-    <Position X="27.75" Y="4.75" Width="1.25" />
+    <Position X="29.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ReadyMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ScoreMessage">
-    <Position X="29.25" Y="4.75" Width="1.25" />
+    <Position X="25.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAIAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\ScoreMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.SpawnMessage">
-    <Position X="30.75" Y="4.75" Width="1.25" />
+    <Position X="23.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAEAAAAAAAACAIAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\SpawnMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.StartConfirmMessage">
-    <Position X="32.25" Y="4.75" Width="1.25" />
+    <Position X="21.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\StartComfirmMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.StartGameMessage">
-    <Position X="33.75" Y="4.75" Width="1.25" />
+    <Position X="27.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEgAAAAAAAAAAAACAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Messages\StartGameMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="UnityMultiplayerGame.ScoreManager">
-    <Position X="16.75" Y="8.25" Width="1.75" />
+  <Class Name="UnityMultiplayerGame.Client">
+    <Position X="31.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAQCAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAEA=</HashCode>
-      <FileName>Assets\Scripts\ScoreManager.cs</FileName>
+      <HashCode>UARDghBCICAACAEAAAAChQAAAIAAgQAAQAAGQAABAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\Client.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DatabaseUtils">
-    <Position X="14.75" Y="8.25" Width="1.5" />
+  <Class Name="UnityMultiplayerGame.MessageHeader">
+    <Position X="25.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAEAECAACAAAAAAAAAAAAAoAEABAEAAQAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\DatabaseUtils.cs</FileName>
+      <HashCode>AAAAAAAAAEAAkAAAAAAAAAACAAAAAACAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\MessageHeader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.NetworkedPlayer">
+    <Position X="23.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\NetworkedPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.NetworkManager">
+    <Position X="29.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAIEAAgAgAAAAAQAAAgA=</HashCode>
+      <FileName>Assets\Scripts\Networking\NetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.PingPong">
+    <Position X="19.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.NetworkMessageInfo">
+    <Position X="19.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.Server">
+    <Position X="19.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECQFgAASACAAAASBgIACAACAAAAAgQAIQAAigAIAFQo=</HashCode>
+      <FileName>Assets\Scripts\Networking\Server.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityMultiplayerGame.ButtonPressManager">
-    <Position X="19" Y="8.25" Width="1.5" />
+    <Position X="31.25" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAASEAQEAAAAQAAAIAAQAJAAAAYAAAAAAAA0A=</HashCode>
       <FileName>Assets\Scripts\ButtonPressManager.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="UnityMultiplayerGame.DatabaseUtils">
+    <Position X="29.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAEAECAACAAAAAAAAAAAAAoAEABAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DatabaseUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityMultiplayerGame.ScoreManager">
+    <Position X="31.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAQCAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\ScoreManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkedBehaviour">
+    <Position X="21.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\NetworkedBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkSpawnInfo">
+    <Position X="19.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\NetworkSpawnInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="UnityMultiplayerGame.NetworkMessageType">
-    <Position X="28.25" Y="8" Width="1.5" />
+    <Position X="27.25" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABEABAAAQAAQAAAABAACAAgAQAAAABAEAAAAAgYEAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Server.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="UnityMultiplayerGame.MessageType">
-    <Position X="30" Y="8" Width="1.5" />
+    <Position X="25.25" Y="14" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAgAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Server.cs</FileName>
     </TypeIdentifier>
   </Enum>
+  <Enum Name="NetworkSpawnObject">
+    <Position X="25.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Scripts\Networking\NetworkSpawnInfo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Delegate Name="UnityMultiplayerGame.ServerMessageHandler">
-    <Position X="33.5" Y="8" Width="1.5" />
+    <Position X="23.25" Y="14.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAACAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Server.cs</FileName>
     </TypeIdentifier>
   </Delegate>
   <Delegate Name="UnityMultiplayerGame.ClientMessageHandler">
-    <Position X="31.75" Y="8" Width="1.5" />
+    <Position X="21.25" Y="14.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Assets\Scripts\Networking\Server.cs</FileName>
